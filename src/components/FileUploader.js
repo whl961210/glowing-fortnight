@@ -1,5 +1,6 @@
 // FileUploader.js
 import React, { useState } from 'react';
+import './FileUploader.css';
 
 const FileUploader = ({ onFileUpload }) => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -21,10 +22,24 @@ const FileUploader = ({ onFileUpload }) => {
     };
 
     return (
-        <div>
-            <input type="file" onChange={handleFileChange} />
-            <input type="text" placeholder="Column name" value={columnName} onChange={handleColumnNameChange} />
-            <button onClick={handleUpload} disabled={!selectedFile || !columnName}>
+        <div className="file-uploader-container">
+            <input
+                type="file"
+                className="file-input"
+                onChange={handleFileChange}
+            />
+            <input
+                type="text"
+                className="column-name-input"
+                placeholder="Column name"
+                value={columnName}
+                onChange={handleColumnNameChange}
+            />
+            <button
+                className="upload-button"
+                onClick={handleUpload}
+                disabled={!selectedFile || !columnName}
+            >
                 Upload File
             </button>
         </div>

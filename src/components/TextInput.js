@@ -1,29 +1,30 @@
 import React, { useState } from 'react';
-import apiService from '../services/apiService'; // Import the apiService
+import './TextInput.css'; // Import the CSS file
 
 const TextInput = ({ onTextSubmit }) => {
     const [text, setText] = useState('');
 
-    // Update state when text changes
     const handleTextChange = (event) => {
         setText(event.target.value);
     };
 
-    // Submit text
-    // Submit text
     const handleSubmit = () => {
-        onTextSubmit(text); // Pass the text to onTextSubmit
+        onTextSubmit(text);
     };
 
-
     return (
-        <div>
+        <div className="text-input-container">
             <textarea
+                className="text-input-area"
                 value={text}
                 onChange={handleTextChange}
                 placeholder="Enter text here..."
             />
-            <button onClick={handleSubmit} disabled={!text}>
+            <button
+                className="submit-button"
+                onClick={handleSubmit}
+                disabled={!text}
+            >
                 Analyze Text
             </button>
         </div>

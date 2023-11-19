@@ -1,4 +1,5 @@
 import React from 'react';
+import './ResultsTable.css';
 
 const ResultsTable = ({ results, sentimentPercentages }) => {
     if (!results || results.length === 0) {
@@ -10,8 +11,8 @@ const ResultsTable = ({ results, sentimentPercentages }) => {
     const keys = Object.keys(results[0]);
 
     return (
-        <div>
-            <div style={{ overflow: 'auto', maxHeight: '500px' }}>
+        <div className="results-table-container">
+            <div className="table-scrollable">
                 <table>
                     <thead>
                         <tr>
@@ -31,22 +32,19 @@ const ResultsTable = ({ results, sentimentPercentages }) => {
                     </tbody>
                 </table>
             </div>
-            {/* Display sentiment percentages if provided */}
             {sentimentPercentages && (
-    <div>
-        <h2>Sentiment Results:</h2>
-        <ul>
-            {Object.entries(sentimentPercentages).map(([key, value]) => (
-                <li key={key}>
-                    {value.Negative && <span> Negative: {Number(value.Negative).toFixed(2)}% </span>}
-                    {value.Positive && <span> Positive: {Number(value.Positive).toFixed(2)}% </span>}
-                </li>
-            ))}
-        </ul>
-    </div>
-)}
-
-
+                <div className="sentiment-results">
+                    <h2>Sentiment Results:</h2>
+                    <ul>
+                        {Object.entries(sentimentPercentages).map(([key, value]) => (
+                            <li key={key}>
+                                {value.Negative && <span> Negative: {Number(value.Negative).toFixed(2)}% </span>}
+                                {value.Positive && <span> Positive: {Number(value.Positive).toFixed(2)}% </span>}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };

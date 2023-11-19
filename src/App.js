@@ -53,15 +53,26 @@ function App() {
   };
 
   return (
-    <div>
-        <h1>Sentiment Analysis</h1>
+    <div className="app-container">
+        <h1 className="app-title">Sentiment Analysis</h1>
         {error && <div className="error-message">{error}</div>}
-        {isLoading ? <div>Loading...</div> : (
+
+        {isLoading ? (
+            <div className="loading-indicator">Loading...</div>
+        ) : (
             <>
-                <TextInput onTextSubmit={handleTextSubmit} />
-                <FileUploader onFileUpload={handleFileUpload} />
-                <YouTubeCommentAnalyzer onAnalyzeYouTubeComments={handleAnalyzeYouTubeComments} />
-                <ResultsTable results={results} sentimentPercentages={sentimentPercentages} />
+                <div className="component-container">
+                    <TextInput onTextSubmit={handleTextSubmit} />
+                </div>
+                <div className="component-container">
+                    <FileUploader onFileUpload={handleFileUpload} />
+                </div>
+                <div className="component-container">
+                    <YouTubeCommentAnalyzer onAnalyzeYouTubeComments={handleAnalyzeYouTubeComments} />
+                </div>
+                <div className="component-container">
+                    <ResultsTable results={results} sentimentPercentages={sentimentPercentages} />
+                </div>
             </>
         )}
     </div>

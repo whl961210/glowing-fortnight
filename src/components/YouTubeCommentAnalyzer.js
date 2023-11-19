@@ -22,15 +22,19 @@ const YouTubeCommentAnalyzer = ({ onAnalyzeYouTubeComments }) => {
     };
 
     return (
-        <div>
+        <div className="youtube-analyzer-container">
             <input
                 type="text"
                 placeholder="Enter YouTube Video URL"
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
-                className={error ? 'input-error' : ''}
+                className={`youtube-input ${error ? 'input-error' : ''}`}
             />
-            <button onClick={handleAnalyze} disabled={!videoUrl}>
+            <button 
+                className="analyze-button"
+                onClick={handleAnalyze} 
+                disabled={!videoUrl}
+            >
                 Analyze Comments
             </button>
             {error && <div className="error-message">{error}</div>}
