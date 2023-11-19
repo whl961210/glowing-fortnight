@@ -1,4 +1,4 @@
-// YouTubeCommentAnalyzer.js
+import React, { useState } from 'react';
 
 const YouTubeCommentAnalyzer = ({ onAnalyzeYouTubeComments }) => {
     const [videoUrl, setVideoUrl] = useState('');
