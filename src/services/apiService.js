@@ -30,6 +30,15 @@ const apiService = {
             throw error;
         }
     },
+    analyzeYouTubeComments: async (videoId) => {
+        try {
+            const response = await axios.post(`${API_BASE_URL}/analyze-youtube-comments`, { video_id: videoId });
+            return response.data;
+        } catch (error) {
+            console.error('Error analyzing YouTube comments:', error);
+            throw error;
+        }
+    },
 };
 
 export default apiService;
