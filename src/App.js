@@ -9,23 +9,33 @@ function App() {
     const [results, setResults] = useState([]);
 
     const handleTextSubmit = async (text) => {
+        setIsLoading(true);
+        setError('');
         try {
             const response = await apiService.analyzeText(text);
             setResults([response]);
         } catch (error) {
             console.error('Error analyzing text:', error);
-            // Handle error appropriately
+            setError('Error analyzing text');
         }
+        setIsLoading(false);
     };
 
     const handleAnalyzeYouTubeComments = async (videoId) => {
+        setIsLoading(true);
+        setError('');
         try {
-            const response = await apiService.analyzeYouTubeComments(videoId);
-            setResults(response);
+            const analyzedCommentsResponse = await apiService.analyzeYouTubeComments(videoId);
+            setResults(analyzedCommentsResponse.comments);  // Assuming the response has a 'comments' key
+
+            const sentiments = analyzedCommentsResponse.comments.map(comment => comment.Sentiment);
+            const sentimentPercentagesResponse = await apiService.calculateSentimentPercentages(sentiments);
+            setSentimentPercentages(sentimentPercentagesResponse.sentiment_percentages); // Assuming the response has a 'sentiment_percentages' key
         } catch (error) {
             console.error('Error analyzing YouTube comments:', error);
-            // Handle error appropriately
+            setError('Error analyzing YouTube comments');
         }
+        setIsLoading(false);
     };
     const handleFileUpload = async (file, columnName) => {
       try {
@@ -37,15 +47,35 @@ function App() {
       }
   };
 
-    return (
-        <div>
-            <h1>Sentiment Analysis</h1>
-            <TextInput onTextSubmit={handleTextSubmit} />
-            <FileUploader onFileUpload={handleFileUpload} />
-            <YouTubeCommentAnalyzer onAnalyzeYouTubeComments={handleAnalyzeYouTubeComments} />
-            <ResultsTable results={results} />
-        </div>
-    );
+  return (
+    <div>
+        <h1>Sentiment Analysis</h1>
+        {error && <div className="error-message">{error}</div>}
+        {isLoading ? <div>Loading...</div> : (
+            <>
+                <TextInput onTextSubmit={handleTextSubmit} />
+                <FileUploader onFileUpload={handleFileUpload} />
+                <YouTubeCommentAnalyzer onAnalyzeYouTubeComments={handleAnalyzeYouTubeComments} />
+                <ResultsTable results={results} />
+
+                {/* Display sentiment percentages */}
+                <div>
+                    <h2>Sentiment Percentages</h2>
+                    {Object.keys(sentimentPercentages).length > 0 && (
+                        <ul>
+                            {Object.entries(sentimentPercentages).map(([sentiment, percentage]) => (
+                                <li key={sentiment}>
+                                    {`${sentiment}: ${percentage.toFixed(2)}%`}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+            </>
+        )}
+    </div>
+);
+
 }
 
 export default App;
