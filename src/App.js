@@ -7,7 +7,10 @@ import apiService from './services/apiService';
 
 function App() {
     const [results, setResults] = useState([]);
-
+    const [sentimentPercentages, setSentimentPercentages] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
+    
     const handleTextSubmit = async (text) => {
         setIsLoading(true);
         setError('');
