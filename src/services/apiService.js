@@ -39,6 +39,15 @@ const apiService = {
             throw error;
         }
     },
+    calculateSentimentPercentages: async (sentiments) => {
+        try {
+            const response = await axios.post(`${API_BASE_URL}/calculate-sentiment-percentages`, { sentiments });
+            return response.data;
+        } catch (error) {
+            console.error('Error calculating sentiment percentages:', error);
+            throw error;
+        }
+    },
 };
 
 export default apiService;
