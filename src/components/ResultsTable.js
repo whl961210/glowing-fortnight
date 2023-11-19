@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ResultsTable = ({ results }) => {
+const ResultsTable = ({ results, sentimentPercentages }) => {
     if (!results || results.length === 0) {
         return <p>No results to display.</p>;
     }
@@ -9,25 +9,35 @@ const ResultsTable = ({ results }) => {
     const keys = Object.keys(results[0]);
 
     return (
-        <div style={{ overflow: 'auto', maxHeight: '500px' }}>
-            <table>
-                <thead>
-                    <tr>
-                        {keys.map((key, index) => (
-                            <th key={index}>{key}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {results.map((result, index) => (
-                        <tr key={index}>
-                            {keys.map((key) => (
-                                <td key={key}>{result[key]}</td>
+        <div>
+            <div style={{ overflow: 'auto', maxHeight: '500px' }}>
+                <table>
+                    <thead>
+                        <tr>
+                            {keys.map((key, index) => (
+                                <th key={index}>{key}</th>
                             ))}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {results.map((result, index) => (
+                            <tr key={index}>
+                                {keys.map((key) => (
+                                    <td key={key}>{result[key]}</td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            {/* Display sentiment percentages */}
+            {sentimentPercentages && Object.keys(sentimentPercentages).length > 0 && (
+                <div>
+                    <p>Positive: {sentimentPercentages.Positive}%</p>
+                    <p>Negative: {sentimentPercentages.Negative}%</p>
+                </div>
+            )}
+
         </div>
     );
 };

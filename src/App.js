@@ -10,7 +10,7 @@ function App() {
     const [sentimentPercentages, setSentimentPercentages] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    
+
     const handleTextSubmit = async (text) => {
         setIsLoading(true);
         setError('');
@@ -28,12 +28,14 @@ function App() {
         setIsLoading(true);
         setError('');
         try {
-            const analyzedCommentsResponse = await apiService.analyzeYouTubeComments(videoId);
-            setResults(analyzedCommentsResponse.comments);  // Assuming the response has a 'comments' key
-
-            const sentiments = analyzedCommentsResponse.comments.map(comment => comment.Sentiment);
-            const sentimentPercentagesResponse = await apiService.calculateSentimentPercentages(sentiments);
-            setSentimentPercentages(sentimentPercentagesResponse.sentiment_percentages); // Assuming the response has a 'sentiment_percentages' key
+            const response = await apiService.analyzeYouTubeComments(videoId);
+            const sentiments = response.map((comment) => comment.Sentiment);
+            setResults(response);
+            console.log(sentiments);
+            const percentages = await apiService.calculateSentimentPercentages(sentiments);
+            console.log(percentages);
+            setSentimentPercentages(percentages);
+            console.log("Updated State:", percentages);
         } catch (error) {
             console.error('Error analyzing YouTube comments:', error);
             setError('Error analyzing YouTube comments');
@@ -59,21 +61,7 @@ function App() {
                 <TextInput onTextSubmit={handleTextSubmit} />
                 <FileUploader onFileUpload={handleFileUpload} />
                 <YouTubeCommentAnalyzer onAnalyzeYouTubeComments={handleAnalyzeYouTubeComments} />
-                <ResultsTable results={results} />
-
-                {/* Display sentiment percentages */}
-                <div>
-                    <h2>Sentiment Percentages</h2>
-                    {Object.keys(sentimentPercentages).length > 0 && (
-                        <ul>
-                            {Object.entries(sentimentPercentages).map(([sentiment, percentage]) => (
-                                <li key={sentiment}>
-                                    {`${sentiment}: ${percentage.toFixed(2)}%`}
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
+                <ResultsTable results={results} sentimentPercentages={sentimentPercentages} />
             </>
         )}
     </div>
