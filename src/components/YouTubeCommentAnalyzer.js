@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+// YouTubeCommentAnalyzer.js
 
 const YouTubeCommentAnalyzer = ({ onAnalyzeYouTubeComments }) => {
-    const [videoId, setVideoId] = useState('');
+    const [videoUrl, setVideoUrl] = useState('');
 
-    const handleVideoIdChange = (event) => {
-        setVideoId(event.target.value);
+    const extractVideoID = (url) => {
+        const regex = /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/;
+        const match = url.match(regex);
+        return match ? match[1] : null;
     };
 
     const handleAnalyze = async () => {
+        const videoId = extractVideoID(videoUrl);
         if (videoId) {
             onAnalyzeYouTubeComments(videoId);
         } else {
-            alert('Please enter a YouTube video ID.');
+            alert('Please enter a valid YouTube video URL.');
         }
     };
 
@@ -19,11 +22,11 @@ const YouTubeCommentAnalyzer = ({ onAnalyzeYouTubeComments }) => {
         <div>
             <input
                 type="text"
-                placeholder="Enter YouTube Video ID"
-                value={videoId}
-                onChange={handleVideoIdChange}
+                placeholder="Enter YouTube Video URL"
+                value={videoUrl}
+                onChange={(e) => setVideoUrl(e.target.value)}
             />
-            <button onClick={handleAnalyze} disabled={!videoId}>
+            <button onClick={handleAnalyze} disabled={!videoUrl}>
                 Analyze Comments
             </button>
         </div>
