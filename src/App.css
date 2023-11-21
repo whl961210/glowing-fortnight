@@ -78,3 +78,26 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #f7f7f7;
 }
+.react-tabs__tab-list {
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+}
+
+.react-tabs__tab {
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.react-tabs__tab--selected {
+  background: #fff;
+  border-color: #aaa;
+  color: black;
+  border-radius: 5px 5px 0 0;
+  z-index: 3;
+}
