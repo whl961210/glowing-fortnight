@@ -49,3 +49,50 @@ th {
 .sentiment-results li {
     margin-bottom: 10px;
 }
+.selected-row {
+    background-color: #eef; /* Choose a suitable highlight color */
+    cursor: pointer;
+}
+
+/* Feedback Form Styles */
+.feedback-form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.feedback-form h3 {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.feedback-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.feedback-form select {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+.feedback-form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.feedback-form button:hover {
+    background-color: #0056b3;
+}
