@@ -39,6 +39,40 @@ const apiService = {
             throw error;
         }
     },
+    submitUserFeedback: async (originalText, userSentiment, userComment) => {
+        try {
+            const response = await axios.post(`${API_BASE_URL}/submit-feedback`, {
+                original_text: originalText,
+                user_sentiment: userSentiment,
+                user_comment: userComment
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error submitting user feedback:', error);
+            throw error;
+        }
+    },
+    
+    getFeedback: async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/get-feedback`);
+            return response.data;
+        } catch (error) {
+            console.error('Error getting feedback:', error);
+            throw error;
+        }
+    },
+
+    deleteFeedback: async (feedbackId) => {
+        try {
+            const response = await axios.delete(`${API_BASE_URL}/delete-feedback/${feedbackId}`);
+            return response.data;
+        } catch (error) {
+            console.error(`Error deleting feedback with ID ${feedbackId}:`, error);
+            throw error;
+        }
+    },
+    
     calculateSentimentPercentages: async (sentiments) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/calculate-sentiment-percentages`, { sentiments });
