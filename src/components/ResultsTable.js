@@ -33,9 +33,9 @@ const ResultsTable = ({ results, sentimentPercentages }) => {
                 <table>
                     <thead>
                         <tr>
-                            {keys.map((key, index) => (
-                                <th key={index}>{key}</th>
-                            ))}
+                            <th>Text</th>
+                            <th>Author</th>
+                            <th>Sentiment</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,13 +45,12 @@ const ResultsTable = ({ results, sentimentPercentages }) => {
                                 onClick={() => setSelectedEntry(result)}
                                 className={selectedEntry === result ? 'selected-row' : ''}
                             >
-                                {keys.map((key) => (
-                                    <td key={key}>{result[key]}</td>
-                                ))}
+                                <td>{result.text}</td>
+                                <td>{result.author}</td>
+                                <td>{result.Sentiment}</td>
                             </tr>
                         ))}
                     </tbody>
-
                 </table>
             </div>
             <div className="feedback-form">
