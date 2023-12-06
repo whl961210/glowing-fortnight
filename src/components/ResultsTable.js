@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './ResultsTable.css';
 import apiService from '../services/apiService';
 
-const ResultsTable = ({ results, sentimentPercentages }) => {
+const ResultsTable = ({ results, sentimentPercentages,columnName }) => {
     const [selectedEntry, setSelectedEntry] = useState(null);
     const [userSentiment, setUserSentiment] = useState('');
     const [userComment, setUserComment] = useState('');
