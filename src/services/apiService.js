@@ -82,6 +82,27 @@ const apiService = {
             throw error;
         }
     },
+    exportCsv: async (results) => {
+        try {
+            const response = await axios.post(`${API_BASE_URL}/export-csv`, { results }, {
+                responseType: 'blob', // Important for handling the binary data of the file
+            });
+
+            // Creating a URL for the file
+            const fileURL = window.URL.createObjectURL(new Blob([response.data]));
+            const fileLink = document.createElement('a');
+            fileLink.href = fileURL;
+            fileLink.setAttribute('download', 'results.csv'); // Set the file name
+            document.body.appendChild(fileLink);
+
+            fileLink.click(); // Simulate click to trigger download
+
+            fileLink.parentNode.removeChild(fileLink); // Clean up
+        } catch (error) {
+            console.error('Error exporting CSV:', error);
+            throw error;
+        }
+    },
 };
 
 export default apiService;

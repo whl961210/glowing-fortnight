@@ -110,3 +110,16 @@
   background-color: #f7f7f7;
 }
 
+.export-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.export-button:hover {
+  background-color: #45a049;
+}

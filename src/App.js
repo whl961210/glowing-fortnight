@@ -56,6 +56,14 @@ function App() {
             // Handle error appropriately
         }
     };
+    const handleExportCsv = async () => {
+        try {
+            await apiService.exportCsv(results);
+        } catch (error) {
+            console.error('Error exporting CSV:', error);
+            setError('Error exporting CSV');
+        }
+    };
 
     return (
         <div className="app-container">
@@ -86,7 +94,12 @@ function App() {
                     {/* Results always visible */}
                     <div className="results-container">
                         <ResultsTable results={results} columnName={selectedColumnName} />
-
+                        {/* Conditionally render the export button */}
+                        {results.length > 0 && (
+                            <button className="export-button" onClick={handleExportCsv}>
+                                Export as CSV
+                            </button>
+                        )}
                         {/* Sentiment Percentages displayed only if data exists */}
                         {hasSentimentData && (
                             <div className="sentiment-results">
