@@ -10,6 +10,7 @@ import './App.css'; // Your custom styles
 
 function App() {
     const [results, setResults] = useState([]);
+    const [selectedColumnName, setSelectedColumnName] = useState('');
     const [sentimentPercentages, setSentimentPercentages] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -46,64 +47,65 @@ function App() {
         setIsLoading(false);
     };
     const handleFileUpload = async (file, columnName) => {
-      try {
-          const response = await apiService.uploadFile(file, columnName);
-          setResults(response);
-      } catch (error) {
-          console.error('Error uploading file:', error);
-          // Handle error appropriately
-      }
-  };
+        try {
+            const response = await apiService.uploadFile(file, columnName);
+            setResults(response);
+            setSelectedColumnName(columnName);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            // Handle error appropriately
+        }
+    };
 
-  return (
-    <div className="app-container">
-        <h1 className="app-title">Sentiment Analysis</h1>
-        {error && <div className="error-message">{error}</div>}
-        {isLoading ? (
-            <div className="loading-indicator">Loading...</div>
-        ) : (
-            <>
-                <Tabs>
-                    <TabList>
-                        <Tab>Text Analysis</Tab>
-                        <Tab>File Upload</Tab>
-                        <Tab>YouTube Comments</Tab>
-                    </TabList>
+    return (
+        <div className="app-container">
+            <h1 className="app-title">Sentiment Analysis</h1>
+            {error && <div className="error-message">{error}</div>}
+            {isLoading ? (
+                <div className="loading-indicator">Loading...</div>
+            ) : (
+                <>
+                    <Tabs>
+                        <TabList>
+                            <Tab>Text Analysis</Tab>
+                            <Tab>File Upload</Tab>
+                            <Tab>YouTube Comments</Tab>
+                        </TabList>
 
-                    <TabPanel>
-                        <TextInput onTextSubmit={handleTextSubmit} />
-                    </TabPanel>
-                    <TabPanel>
-                        <FileUploader onFileUpload={handleFileUpload} />
-                    </TabPanel>
-                    <TabPanel>
-                        <YouTubeCommentAnalyzer onAnalyzeYouTubeComments={handleAnalyzeYouTubeComments} />
-                    </TabPanel>
-                </Tabs>
+                        <TabPanel>
+                            <TextInput onTextSubmit={handleTextSubmit} />
+                        </TabPanel>
+                        <TabPanel>
+                            <FileUploader onFileUpload={handleFileUpload} />
+                        </TabPanel>
+                        <TabPanel>
+                            <YouTubeCommentAnalyzer onAnalyzeYouTubeComments={handleAnalyzeYouTubeComments} />
+                        </TabPanel>
+                    </Tabs>
 
-                {/* Results always visible */}
-                <div className="results-container">
-                    <ResultsTable results={results} />
+                    {/* Results always visible */}
+                    <div className="results-container">
+                        <ResultsTable results={results} columnName={selectedColumnName} />
 
-                    {/* Sentiment Percentages displayed only if data exists */}
-                    {hasSentimentData && (
-                        <div className="sentiment-results">
-                            <h2>Sentiment Results:</h2>
-                            <ul>
-                                {Object.entries(sentimentPercentages).map(([key, value]) => (
-                                    <li key={key}>
-                                        {value.Negative && <span> Negative: {Number(value.Negative).toFixed(2)}% </span>}
-                                        {value.Positive && <span> Positive: {Number(value.Positive).toFixed(2)}% </span>}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
-            </>
-        )}
-    </div>
-);
+                        {/* Sentiment Percentages displayed only if data exists */}
+                        {hasSentimentData && (
+                            <div className="sentiment-results">
+                                <h2>Sentiment Results:</h2>
+                                <ul>
+                                    {Object.entries(sentimentPercentages).map(([key, value]) => (
+                                        <li key={key}>
+                                            {value.Negative && <span> Negative: {Number(value.Negative).toFixed(2)}% </span>}
+                                            {value.Positive && <span> Positive: {Number(value.Positive).toFixed(2)}% </span>}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                </>
+            )}
+        </div>
+    );
 }
 
 

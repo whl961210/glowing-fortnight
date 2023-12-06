@@ -45,7 +45,7 @@ const ResultsTable = ({ results, sentimentPercentages }) => {
                                 onClick={() => setSelectedEntry(result)}
                                 className={selectedEntry === result ? 'selected-row' : ''}
                             >
-                                <td>{result.text}</td>
+                                <td>{result.text || result[columnName]}</td>
                                 <td>{result.author}</td>
                                 <td>{result.Sentiment}</td>
                             </tr>
