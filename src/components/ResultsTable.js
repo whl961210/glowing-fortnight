@@ -3,9 +3,16 @@ import './ResultsTable.css';
 import apiService from '../services/apiService';
 
 const ResultsTable = ({ results, sentimentPercentages,columnName }) => {
+    const [currentPage, setCurrentPage] = useState(1);
     const [selectedEntry, setSelectedEntry] = useState(null);
     const [userSentiment, setUserSentiment] = useState('');
     const [userComment, setUserComment] = useState('');
+    const [resultsPerPage] = useState(10);
+    const totalPages = Math.ceil(results.length / resultsPerPage);
+    const indexOfLastResult = currentPage * resultsPerPage;
+    const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+    const currentResults = results.slice(indexOfFirstResult, indexOfLastResult);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
     if (!results || results.length === 0) {
         return <p>No results to display.</p>;
     }
@@ -54,6 +61,13 @@ const ResultsTable = ({ results, sentimentPercentages,columnName }) => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <div className="pagination">
+                {[...Array(totalPages).keys()].map(number => (
+                    <button key={number + 1} onClick={() => paginate(number + 1)}>
+                        {number + 1}
+                    </button>
+                ))}
             </div>
             <div className="feedback-form">
                 <h3>Make Correction If You Thinks the Result is Off</h3>
