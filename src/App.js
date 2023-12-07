@@ -15,6 +15,7 @@ function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
     const hasSentimentData = sentimentPercentages && Object.keys(sentimentPercentages).length > 0;
+    const MAX_RESULTS_DISPLAY = 500;
     const handleTextSubmit = async (text) => {
         setIsLoading(true);
         setError('');
@@ -91,30 +92,39 @@ function App() {
                         </TabPanel>
                     </Tabs>
 
-                    {/* Results always visible */}
-                    <div className="results-container">
-                        <ResultsTable results={results} columnName={selectedColumnName} />
-                        {/* Conditionally render the export button */}
-                        {results.length > 0 && (
+                    {/* Conditional rendering based on the size of results */}
+                    {results.length > MAX_RESULTS_DISPLAY ? (
+                        <div className="large-data-warning">
+                            <p>Data too large to display. Please download the CSV file.</p>
                             <button className="export-button" onClick={handleExportCsv}>
-                                Export as CSV
+                                Download CSV
                             </button>
-                        )}
-                        {/* Sentiment Percentages displayed only if data exists */}
-                        {hasSentimentData && (
-                            <div className="sentiment-results">
-                                <h2>Sentiment Results:</h2>
-                                <ul>
-                                    {Object.entries(sentimentPercentages).map(([key, value]) => (
-                                        <li key={key}>
-                                            {value.Negative && <span> Negative: {Number(value.Negative).toFixed(2)}% </span>}
-                                            {value.Positive && <span> Positive: {Number(value.Positive).toFixed(2)}% </span>}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-                    </div>
+                        </div>
+                    ) : (
+                        <div className="results-container">
+                            <ResultsTable results={results} columnName={selectedColumnName} />
+
+                            {results.length > 0 && (
+                                <button className="export-button" onClick={handleExportCsv}>
+                                    Export as CSV
+                                </button>
+                            )}
+
+                            {hasSentimentData && (
+                                <div className="sentiment-results">
+                                    <h2>Sentiment Results:</h2>
+                                    <ul>
+                                        {Object.entries(sentimentPercentages).map(([key, value]) => (
+                                            <li key={key}>
+                                                {value.Negative && <span> Negative: {Number(value.Negative).toFixed(2)}% </span>}
+                                                {value.Positive && <span> Positive: {Number(value.Positive).toFixed(2)}% </span>}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </>
             )}
         </div>
