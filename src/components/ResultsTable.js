@@ -35,6 +35,7 @@ const ResultsTable = ({ results, sentimentPercentages,columnName }) => {
                         <tr>
                             <th>Text</th>
                             <th>Author</th>
+                            <th>Published At</th>
                             <th>Sentiment</th>
                         </tr>
                     </thead>
